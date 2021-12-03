@@ -1,5 +1,6 @@
-package pw2.domain;
+package pw2.model;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
@@ -8,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
@@ -25,8 +28,12 @@ public class Usuario extends PanacheEntityBase{
     private String senha;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name="idUsuario")
     private Empresa empresa;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name="idUsuario")
+	private List<Informativo> informativos;
 
     public Usuario(String cpf, String nome, String login, String senha,Empresa empresa) {
         this.cpf = cpf;
@@ -88,6 +95,16 @@ public class Usuario extends PanacheEntityBase{
     public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
     }
+
+
+    public List<Informativo> getInformativos() {
+        return this.informativos;
+    }
+
+    public void setInformativos(List<Informativo> informativos) {
+        this.informativos = informativos;
+    }
+
 
     @Override
     public boolean equals(Object o) {

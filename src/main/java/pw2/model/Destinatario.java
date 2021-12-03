@@ -1,12 +1,18 @@
-package pw2.domain;
+package pw2.model;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
@@ -18,7 +24,17 @@ public class Destinatario extends PanacheEntityBase{
     private Long idDestinario;
     private String cpf;
     private String nome;
+    
+    @ManyToMany(mappedBy="destinatarios")
+	private List<Grupo> grupos;
 
+    @JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "INFORMATIVO_DESTINATARIO",
+		joinColumns = @JoinColumn(name = "idDestinatario"),
+		inverseJoinColumns = @JoinColumn(name = "idInformativo")
+	)
+	private List<Informativo> informativos;
 
     public Destinatario() {
     }
@@ -53,6 +69,22 @@ public class Destinatario extends PanacheEntityBase{
         this.idDestinario = idDestinario;
     }
 
+
+    public List<Grupo> getGrupos() {
+        return this.grupos;
+    }
+
+    public void setGrupos(List<Grupo> grupos) {
+        this.grupos = grupos;
+    }
+
+    public List<Informativo> getInformativos() {
+        return this.informativos;
+    }
+
+    public void setInformativos(List<Informativo> informativos) {
+        this.informativos = informativos;
+    }
 
     @Override
     public boolean equals(Object o) {

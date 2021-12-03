@@ -1,12 +1,18 @@
-package pw2.domain;
+package pw2.model;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
@@ -20,7 +26,22 @@ public class Grupo extends PanacheEntityBase{
     private String grupo;
     private String descricao;
 
+    @JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "INFORMATIVO_GRUPO",
+		joinColumns = @JoinColumn(name = "idGrupo"),
+		inverseJoinColumns = @JoinColumn(name = "idInformativo")
+	)
+    private List<Informativo> informativos;
 
+    @JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "GRUPO_DESTINATARIO",
+		joinColumns = @JoinColumn(name = "idGrupo"),
+		inverseJoinColumns = @JoinColumn(name = "idDestinatario")
+	)
+	private List<Destinatario> destinatarios;
+    
     public Grupo() {
     }
 
@@ -57,6 +78,23 @@ public class Grupo extends PanacheEntityBase{
     }
 
 
+    public List<Informativo> getInformativos() {
+        return this.informativos;
+    }
+
+    public void setInformativos(List<Informativo> informativos) {
+        this.informativos = informativos;
+    }
+
+    public List<Destinatario> getDestinatarios() {
+        return this.destinatarios;
+    }
+
+    public void setDestinatarios(List<Destinatario> destinatarios) {
+        this.destinatarios = destinatarios;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -65,14 +103,15 @@ public class Grupo extends PanacheEntityBase{
             return false;
         }
         Grupo grupo = (Grupo) o;
-        return Objects.equals(grupo, grupo.grupo) && Objects.equals(descricao, grupo.descricao);
+        return Objects.equals(idGrupo, grupo.idGrupo) && Objects.equals(descricao, grupo.descricao) && Objects.equals(informativos, grupo.informativos) && Objects.equals(destinatarios, grupo.destinatarios);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(grupo, descricao);
+        return Objects.hash(idGrupo, grupo, descricao, informativos, destinatarios);
     }
 
+    
 
     @Override
     public String toString() {
