@@ -28,7 +28,7 @@ public class Grupo extends PanacheEntityBase{
 
     @JsonIgnore
 	@ManyToMany
-	@JoinTable(name = "INFORMATIVO_GRUPO",
+	@JoinTable(name = "Informativo_Grupo",
 		joinColumns = @JoinColumn(name = "idGrupo"),
 		inverseJoinColumns = @JoinColumn(name = "idInformativo")
 	)
@@ -36,7 +36,7 @@ public class Grupo extends PanacheEntityBase{
 
     @JsonIgnore
 	@ManyToMany
-	@JoinTable(name = "GRUPO_DESTINATARIO",
+	@JoinTable(name = "Grupo_Destinatario",
 		joinColumns = @JoinColumn(name = "idGrupo"),
 		inverseJoinColumns = @JoinColumn(name = "idDestinatario")
 	)

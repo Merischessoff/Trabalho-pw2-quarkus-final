@@ -1,92 +1,58 @@
 package pw2.resource;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import pw2.model.Informativo;
+
+import javax.transaction.Transactional;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.List;
 
 
 @Path("/informativos")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class InformativoResource {
-    // @GET
-    // public List<Car> listAll() {
-    //     return Car.listAll();
-    // }
+    @GET
+    public List<Informativo> listAll() {
+        return Informativo.listAll();
+    }
 
-    // @GET
-    // @Path("/isAvaliableSale")
-    // public List<Car> listAllCarToSale() {
-    //     return Car.list("isAvailableSale", true);
-    // }
+    @POST
+    @Transactional
+    public Response create(Informativo informativo) {
+        Informativo.persist(informativo);
+        return Response.ok(informativo).status(Response.Status.CREATED).build();
+    }
 
-    // @GET
-    // @Path("/listCarSortNameAndBrand")
-    // public List<Car> listCarSortNameAndBrand() {
-    //     return Car.list("order by name, brand");
-    // }
+    @PUT
+    @Path("{id}")
+    @Transactional
+    public Response update(@PathParam("id") Long id, Informativo informativo) {
 
-    // @GET
-    // @Path("/listCarsByYear")
-    // public List<Car> listCarsByYear(@QueryParam("year") int year) {
-    //     return Car.find("year(modelYear) = :year", Parameters.with("year", year)).list();
-    // }
+        Informativo informativoEntity = Informativo.findById(id);
 
-    // @GET
-    // @Path("/count")
-    // public Long count() {
-    //     return Car.count();
-    // }
+        if (informativoEntity == null) {
+            throw new WebApplicationException("Car with id of " + id + " does not exist.", Response.Status.NOT_FOUND);
+        }
 
-    // @GET
-    // @Path("/countCarsAvaiableSale")
-    // public Long countCarsAvaiableSale() {
-    //     return Car.count("isAvailableSale", true);
-    // }
+        //informativoEntity.setUsuario(informativo.getUsuario());
 
-    // @GET
-    // @Path("/listByPage")
-    // public List<Car> listCarByPage(@QueryParam("page") int page, @QueryParam("size") int size) {
-    //     PanacheQuery<Car> listCars = Car.find("isAvailableSale", true);
-    //     return listCars.page(Page.of(page, size)).list();
-    // }
+        return Response.ok(informativoEntity).build();
+    }
 
-    // @POST
-    // @Transactional
-    // public Response create(Car car) {
-    //     Car.persist(car);
-    //     return Response.ok(car).status(Response.Status.CREATED).build();
-    // }
+    @DELETE
+    @Path("{id}")
+    @Transactional
+    public Response delete(@PathParam("id") Long id) {
+        Informativo informativoEntity = Informativo.findById(id);
 
-    // @PUT
-    // @Path("{id}")
-    // @Transactional
-    // public Response update(@PathParam("id") Long id, Car car) {
+        if (informativoEntity == null) {
+            throw new WebApplicationException("Car with id " + id + " does not exist.", Response.Status.NOT_FOUND);
+        }
 
-    //     Car carEntity = Car.findById(id);
-
-    //     if (carEntity == null) {
-    //         throw new WebApplicationException("Car with id of " + id + " does not exist.", Response.Status.NOT_FOUND);
-    //     }
-
-    //     carEntity.setName(car.getName());
-    //     carEntity.setBrand(car.getBrand());
-
-    //     return Response.ok(carEntity).build();
-    // }
-
-    // @DELETE
-    // @Path("{id}")
-    // @Transactional
-    // public Response delete(@PathParam("id") Long id) {
-    //     Car carEntity = Car.findById(id);
-
-    //     if (carEntity == null) {
-    //         throw new WebApplicationException("Car with id " + id + " does not exist.", Response.Status.NOT_FOUND);
-    //     }
-
-    //     carEntity.delete();
-    //     return Response.status(Response.Status.NO_CONTENT).build();
-    // }
+        informativoEntity.delete();
+        return Response.status(Response.Status.NO_CONTENT).build();
+    }
+    
 }

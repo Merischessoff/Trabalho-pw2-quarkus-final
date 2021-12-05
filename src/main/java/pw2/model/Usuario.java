@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
@@ -31,6 +33,7 @@ public class Usuario extends PanacheEntityBase{
     @JoinColumn(name="idUsuario")
     private Empresa empresa;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="idUsuario")
 	private List<Informativo> informativos;

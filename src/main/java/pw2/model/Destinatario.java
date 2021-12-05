@@ -30,7 +30,7 @@ public class Destinatario extends PanacheEntityBase{
 
     @JsonIgnore
 	@ManyToMany
-	@JoinTable(name = "INFORMATIVO_DESTINATARIO",
+	@JoinTable(name = "Informativo_Destinatario",
 		joinColumns = @JoinColumn(name = "idDestinatario"),
 		inverseJoinColumns = @JoinColumn(name = "idInformativo")
 	)

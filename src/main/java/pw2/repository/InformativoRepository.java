@@ -1,125 +1,50 @@
 package pw2.repository;
 
-import javax.enterprise.context.ApplicationScoped;
-
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import javax.enterprise.context.ApplicationScoped;
+import javax.transaction.Transactional;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
+import java.util.List;
 import pw2.model.Informativo;
 
 @ApplicationScoped
 public class InformativoRepository implements PanacheRepository<Informativo>{
-    //  /**
-    //  * Método responsável por listar todos os veículos
-    //  * @return
-    //  */
-    // public List<Car> listAll() {
-    //     return listAll();
-    // }
+     
+    public List<Informativo> listAll() {
+        return listAll();
+    }
 
-    // /**
-    //  * Método responável por listar todos os veículos disponíveis para venda
-    //  * @return List<Car>
-    //  */
-    // public List<Car> listAllCarToSale() {
-    //     return list("isAvailableSale", true);
-    // }
+    @Transactional
+    public Informativo save(Informativo informativo) {
+        persist(informativo);
+        return informativo;
+    }
 
-    // /**
-    //  * Método responsável por listar os veículos ordenados por Nome e Marca
-    //  * @return List<Car>
-    //  */
-    // public List<Car> listCarSortNameAndBrand() {
-    //     return list("order by name, brand");
-    // }
+    @Transactional
+    public Informativo update(Long id, Informativo car) {
+        Informativo informativoEntity = findById(id);
 
-    // /**
-    //  * Método responsável por listar os veículos por ano (parâmetro)
-    //  * @param year
-    //  * @return List<Car>
-    //  */
-    // public List<Car> listCarsByYear(int year) {
-    //     return find("year(modelYear) = :year", Parameters.with("year", year)).list();
-    // }
+        if (informativoEntity == null) {
+            throw new WebApplicationException("Car with id of " + id + " does not exist.", Response.Status.NOT_FOUND);
+        }
 
-    // /**
-    //  * Método responsável por retornar a quantidade de veículos cadastrados no banco de dados.
-    //  * @return long
-    //  */
-    // public long countCar() {
-    //     return count();
-    // }
+        //carEntity.setName(car.getName());
+        //carEntity.setBrand(car.getBrand());
+        //note that once persisted, you don't need to explicitly save your entity: all
+        //modifications are automatically persisted on transaction commit.
+        //persist(carEntity);//opcional 
+        return informativoEntity;
+    }
 
-    // /**
-    //  * Método responsável por retornar a quantidade de veículos disponíveis para venda
-    //  * @return Long
-    //  */
-    // public Long countCarsAvaiableSale() {
-    //     return count("isAvailableSale", true);
-    // }
+    @Transactional
+    public void remove(Long id) {
+        Informativo informativoEntity = findById(id);
 
-    // /**
-    //  * Método responsável por listar os veículos com paginação
-    //  * @param page
-    //  * @param size
-    //  * @return List<Car>
-    //  */
-    // public List<Car> listCarByPage(int page, int size) {
-    //     PanacheQuery<Car> listCars = find("isAvailableSale", true);
-    //     return listCars.page(Page.of(page, size)).list();
-    // }
+        if (informativoEntity == null) {
+            throw new WebApplicationException("Car with id " + id + " does not exist.", Response.Status.NOT_FOUND);
+        }
+        delete(informativoEntity);
+    }
 
-    // /**
-    //  * Método responsável por retornar o veículo através do nome
-    //  * @param name
-    //  * @return Car
-    //  */
-    // public Car findByName(String name){
-    //     return find("name", name).firstResult();
-    // }
-
-    // /**
-    //  * Método responsável por salvar veículos
-    //  * @param car
-    //  * @return Car
-    //  */
-    // @Transactional
-    // public Car save(Car car) {
-    //     persist(car);
-    //     return car;
-    // }
-
-    // /**
-    //  * Método responsável por atualizar os dados de um veículo
-    //  * @param id
-    //  * @param car
-    //  * @return Car
-    //  */
-    // @Transactional
-    // public Car update(Long id, Car car) {
-    //     Car carEntity = findById(id);
-
-    //     if (carEntity == null) {
-    //         throw new WebApplicationException("Car with id of " + id + " does not exist.", Response.Status.NOT_FOUND);
-    //     }
-
-    //     carEntity.setName(car.getName());
-    //     carEntity.setBrand(car.getBrand());
-    //     //note that once persisted, you don't need to explicitly save your entity: all
-    //     //modifications are automatically persisted on transaction commit.
-    //     //persist(carEntity);//opcional 
-    //     return carEntity;
-    // }
-
-    // /**
-    //  * Método responsável por remover um veículo
-    //  * @param id
-    //  */
-    // @Transactional
-    // public void remove(Long id) {
-    //     Car carEntity = findById(id);
-
-    //     if (carEntity == null) {
-    //         throw new WebApplicationException("Car with id " + id + " does not exist.", Response.Status.NOT_FOUND);
-    //     }
-    //     delete(carEntity);
-    // }
 }
