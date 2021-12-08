@@ -19,12 +19,14 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 @Entity
 @SequenceGenerator(name = "DEST_SEQ", sequenceName = "DESTINATARIO_SEQ", initialValue = 1, allocationSize = 1)
 public class Destinatario extends PanacheEntityBase{
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DEST_SEQ")
     private Long idDestinario;
     private String cpf;
     private String nome;
     
+    @JsonIgnore
     @ManyToMany(mappedBy="destinatarios")
 	private List<Grupo> grupos;
 

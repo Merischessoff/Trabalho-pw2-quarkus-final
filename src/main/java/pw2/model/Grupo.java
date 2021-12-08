@@ -19,20 +19,20 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 @Entity
 @SequenceGenerator(name = "GRU_SEQ", sequenceName = "GRUPO_SEQ", initialValue = 1, allocationSize = 1)
 public class Grupo extends PanacheEntityBase{
-
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GRU_SEQ")
     private Long idGrupo;
     private String grupo;
     private String descricao;
 
-    @JsonIgnore
-	@ManyToMany
-	@JoinTable(name = "Informativo_Grupo",
-		joinColumns = @JoinColumn(name = "idGrupo"),
-		inverseJoinColumns = @JoinColumn(name = "idInformativo")
-	)
-    private List<Informativo> informativos;
+    // @JsonIgnore
+	// @ManyToMany
+	// @JoinTable(name = "Informativo_Grupo",
+	// 	joinColumns = @JoinColumn(name = "idGrupo"),
+	// 	inverseJoinColumns = @JoinColumn(name = "idInformativo")
+	// )
+    // private List<Informativo> informativos;
 
     @JsonIgnore
 	@ManyToMany
@@ -78,13 +78,13 @@ public class Grupo extends PanacheEntityBase{
     }
 
 
-    public List<Informativo> getInformativos() {
-        return this.informativos;
-    }
+    // public List<Informativo> getInformativos() {
+    //     return this.informativos;
+    // }
 
-    public void setInformativos(List<Informativo> informativos) {
-        this.informativos = informativos;
-    }
+    // public void setInformativos(List<Informativo> informativos) {
+    //     this.informativos = informativos;
+    // }
 
     public List<Destinatario> getDestinatarios() {
         return this.destinatarios;
@@ -103,12 +103,14 @@ public class Grupo extends PanacheEntityBase{
             return false;
         }
         Grupo grupo = (Grupo) o;
-        return Objects.equals(idGrupo, grupo.idGrupo) && Objects.equals(descricao, grupo.descricao) && Objects.equals(informativos, grupo.informativos) && Objects.equals(destinatarios, grupo.destinatarios);
+        return Objects.equals(idGrupo, grupo.idGrupo) 
+        && Objects.equals(descricao, grupo.descricao) 
+        & Objects.equals(destinatarios, grupo.destinatarios);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idGrupo, grupo, descricao, informativos, destinatarios);
+        return Objects.hash(idGrupo, grupo, descricao, destinatarios);
     }
 
     

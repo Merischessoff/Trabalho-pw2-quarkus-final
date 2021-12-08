@@ -14,12 +14,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
 @SequenceGenerator(name = "INF_SEQ", sequenceName = "INFORMATIVO_SEQ", initialValue = 1, allocationSize = 1)
 public class Informativo extends PanacheEntityBase{
-    
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "INF_SEQ")
     private Long idInformativo;
@@ -30,8 +32,8 @@ public class Informativo extends PanacheEntityBase{
     @JoinColumn(name="idInformativo")
 	private Usuario usuario;
 
-    @ManyToMany(mappedBy="informativos")
-	private List<Grupo> grupos;
+    // @ManyToMany(mappedBy="informativos")
+	// private List<Grupo> grupos;
 
     @ManyToMany(mappedBy="informativos")
 	private List<Destinatario> destinatarios;
@@ -79,13 +81,13 @@ public class Informativo extends PanacheEntityBase{
         this.usuario = usuario;
     }
 
-    public List<Grupo> getGrupos() {
-        return this.grupos;
-    }
+    // public List<Grupo> getGrupos() {
+    //     return this.grupos;
+    // }
 
-    public void setGrupos(List<Grupo> grupos) {
-        this.grupos = grupos;
-    }
+    // public void setGrupos(List<Grupo> grupos) {
+    //     this.grupos = grupos;
+    // }
 
     public List<Destinatario> getDestinatarios() {
         return this.destinatarios;
@@ -104,7 +106,8 @@ public class Informativo extends PanacheEntityBase{
             return false;
         }
         Informativo informativo = (Informativo) o;
-        return Objects.equals(texto, informativo.texto) && Objects.equals(imagem, informativo.imagem);
+        return Objects.equals(texto, informativo.texto) 
+        && Objects.equals(imagem, informativo.imagem);
     }
 
     @Override
