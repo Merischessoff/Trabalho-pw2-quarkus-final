@@ -20,14 +20,14 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 @Entity
 @SequenceGenerator(name = "EMP_SEQ", sequenceName = "EMPRESA_SEQ", initialValue = 1, allocationSize = 1)
 public class Empresa extends PanacheEntityBase{
-    @JsonIgnore
+    
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EMP_SEQ")
     private Long idEmpresa;
     private String cnpj;
     private String razaoSocial;
 
-    // @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="idEmpresa")
 	private List<Usuario> usuarios;

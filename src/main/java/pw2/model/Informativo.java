@@ -5,15 +5,13 @@ import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
@@ -28,14 +26,9 @@ public class Informativo extends PanacheEntityBase{
     private String texto;
     private String imagem;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="idInformativo")
-	private Usuario usuario;
 
-    // @ManyToMany(mappedBy="informativos")
-	// private List<Grupo> grupos;
-
-    @ManyToMany(mappedBy="informativos")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonBackReference
 	private List<Destinatario> destinatarios;
     
     public Informativo() {
@@ -62,8 +55,6 @@ public class Informativo extends PanacheEntityBase{
         this.imagem = imagem;
     }
 
-
-
     public Long getIdInformativo() {
         return this.idInformativo;
     }
@@ -71,23 +62,6 @@ public class Informativo extends PanacheEntityBase{
     public void setIdInformativo(Long idInformativo) {
         this.idInformativo = idInformativo;
     }
-
-
-    public Usuario getUsuario() {
-        return this.usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    // public List<Grupo> getGrupos() {
-    //     return this.grupos;
-    // }
-
-    // public void setGrupos(List<Grupo> grupos) {
-    //     this.grupos = grupos;
-    // }
 
     public List<Destinatario> getDestinatarios() {
         return this.destinatarios;

@@ -7,7 +7,6 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-import pw2.model.Destinatario;
 import pw2.model.Informativo;
 
 @ApplicationScoped
@@ -19,10 +18,6 @@ public class InformativoRepository implements PanacheRepository<Informativo>{
 
     @Transactional
     public Informativo save(Informativo informativo) {
-        for (Destinatario d : informativo.getDestinatarios() ) {
-			Destinatario destinatario = Destinatario.findById(informativo.getIdInformativo());
-		}
-
         persist(informativo);
         return informativo;
     }
@@ -37,7 +32,6 @@ public class InformativoRepository implements PanacheRepository<Informativo>{
         informativoEntity.setDestinatarios(informativo.getDestinatarios());
         informativoEntity.setImagem(informativo.getImagem());
         informativoEntity.setTexto(informativo.getTexto());
-        informativoEntity.setUsuario(informativo.getUsuario());
         persist(informativoEntity);//opcional 
         return informativoEntity;
     }

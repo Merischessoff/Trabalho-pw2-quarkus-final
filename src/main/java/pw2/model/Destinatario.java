@@ -3,16 +3,17 @@ package pw2.model;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
@@ -26,16 +27,13 @@ public class Destinatario extends PanacheEntityBase{
     private String cpf;
     private String nome;
     
-    @JsonIgnore
-    @ManyToMany(mappedBy="destinatarios")
+    
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonBackReference
 	private List<Grupo> grupos;
 
-    @JsonIgnore
-	@ManyToMany
-	@JoinTable(name = "Informativo_Destinatario",
-		joinColumns = @JoinColumn(name = "idDestinatario"),
-		inverseJoinColumns = @JoinColumn(name = "idInformativo")
-	)
+	@ManyToMany(cascade = CascadeType.ALL)
+    @JsonManagedReference
 	private List<Informativo> informativos;
 
     public Destinatario() {

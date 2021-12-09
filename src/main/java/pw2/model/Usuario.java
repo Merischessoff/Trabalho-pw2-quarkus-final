@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -30,21 +29,15 @@ public class Usuario extends PanacheEntityBase{
     private String login;
     private String senha;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="idUsuario")
-    private Empresa empresa;
-
-    // @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="idUsuario")
 	private List<Informativo> informativos;
 
-    public Usuario(String cpf, String nome, String login, String senha,Empresa empresa) {
+    public Usuario(String cpf, String nome, String login, String senha) {
         this.cpf = cpf;
         this.nome = nome;
         this.login = login;
         this.senha = senha;
-        this.empresa = empresa;
     }
 
     public Usuario() {
@@ -81,16 +74,6 @@ public class Usuario extends PanacheEntityBase{
     public void setSenha(String senha) {
         this.senha = senha;
     }
-
-
-    public Empresa getEmpresa() {
-        return this.empresa;
-    }
-
-    public void setEmpresa(Empresa empresa) {
-        this.empresa = empresa;
-    }
-
 
     public Long getIdUsuario() {
         return this.idUsuario;
