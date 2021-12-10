@@ -5,25 +5,16 @@ import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 @Entity
-@SequenceGenerator(name = "DEST_SEQ", sequenceName = "DESTINATARIO_SEQ", initialValue = 1, allocationSize = 1)
-public class Destinatario extends PanacheEntityBase{
-    @JsonIgnore
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DEST_SEQ")
-    private Long idDestinario;
+public class Destinatario extends PanacheEntity{
+    
     private String cpf;
     private String nome;
     
@@ -58,15 +49,6 @@ public class Destinatario extends PanacheEntityBase{
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-
-    public Long getIdDestinario() {
-        return this.idDestinario;
-    }
-
-    public void setIdDestinario(Long idDestinario) {
-        this.idDestinario = idDestinario;
     }
 
 

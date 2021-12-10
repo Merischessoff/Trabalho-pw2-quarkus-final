@@ -6,24 +6,14 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 @Entity
-@SequenceGenerator(name = "USU_SEQ", sequenceName = "USUARIO_SEQ", initialValue = 1, allocationSize = 1)
-public class Usuario extends PanacheEntityBase{
-    @JsonIgnore
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USU_SEQ")
-    private Long idUsuario;
+public class Usuario extends PanacheEntity{
+    
     private String cpf;
     private String nome;
     private String login;
@@ -73,14 +63,6 @@ public class Usuario extends PanacheEntityBase{
 
     public void setSenha(String senha) {
         this.senha = senha;
-    }
-
-    public Long getIdUsuario() {
-        return this.idUsuario;
-    }
-
-    public void setIdUsuario(Long idUsuario) {
-        this.idUsuario = idUsuario;
     }
 
 

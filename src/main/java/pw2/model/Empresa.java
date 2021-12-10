@@ -15,16 +15,12 @@ import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
-@SequenceGenerator(name = "EMP_SEQ", sequenceName = "EMPRESA_SEQ", initialValue = 1, allocationSize = 1)
-public class Empresa extends PanacheEntityBase{
+public class Empresa extends PanacheEntity{
     
-    @Id
-    @JsonIgnore
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EMP_SEQ")
-    private Long idEmpresa;
     private String cnpj;
     private String razaoSocial;
 
@@ -54,15 +50,6 @@ public class Empresa extends PanacheEntityBase{
 
     public void setRazaoSocial(String razaoSocial) {
         this.razaoSocial = razaoSocial;
-    }
-
-
-    public Long getIdEmpresa() {
-        return this.idEmpresa;
-    }
-
-    public void setIdEmpresa(Long idEmpresa) {
-        this.idEmpresa = idEmpresa;
     }
 
 

@@ -5,24 +5,14 @@ import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 @Entity
-@SequenceGenerator(name = "GRU_SEQ", sequenceName = "GRUPO_SEQ", initialValue = 1, allocationSize = 1)
-public class Grupo extends PanacheEntityBase{
-    @JsonIgnore
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GRU_SEQ")
-    private Long idGrupo;
+public class Grupo extends PanacheEntity{
     private String grupo;
     private String descricao;
 
@@ -56,16 +46,6 @@ public class Grupo extends PanacheEntityBase{
         this.descricao = descricao;
     }
 
-
-    public Long getIdGrupo() {
-        return this.idGrupo;
-    }
-
-    public void setIdGrupo(Long idGrupo) {
-        this.idGrupo = idGrupo;
-    }
-
-
     public List<Destinatario> getDestinatarios() {
         return this.destinatarios;
     }
@@ -83,14 +63,13 @@ public class Grupo extends PanacheEntityBase{
             return false;
         }
         Grupo grupo = (Grupo) o;
-        return Objects.equals(idGrupo, grupo.idGrupo) 
-        && Objects.equals(descricao, grupo.descricao) 
+        return Objects.equals(descricao, grupo.descricao) 
         & Objects.equals(destinatarios, grupo.destinatarios);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idGrupo, grupo, descricao, destinatarios);
+        return Objects.hash(grupo, descricao, destinatarios);
     }
 
 

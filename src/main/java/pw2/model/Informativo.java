@@ -3,32 +3,23 @@ package pw2.model;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 @Entity
-@SequenceGenerator(name = "INF_SEQ", sequenceName = "INFORMATIVO_SEQ", initialValue = 1, allocationSize = 1)
-public class Informativo extends PanacheEntityBase{
-    @JsonIgnore
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "INF_SEQ")
-    private Long idInformativo;
+public class Informativo extends PanacheEntity{
+    
     private String texto;
     private String imagem;
 
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JsonBackReference
+    @ManyToMany(mappedBy="informativos", fetch = FetchType.EAGER)
+    @JsonManagedReference
 	private List<Destinatario> destinatarios;
     
     public Informativo() {
@@ -53,14 +44,6 @@ public class Informativo extends PanacheEntityBase{
 
     public void setImagem(String imagem) {
         this.imagem = imagem;
-    }
-
-    public Long getIdInformativo() {
-        return this.idInformativo;
-    }
-
-    public void setIdInformativo(Long idInformativo) {
-        this.idInformativo = idInformativo;
     }
 
     public List<Destinatario> getDestinatarios() {
