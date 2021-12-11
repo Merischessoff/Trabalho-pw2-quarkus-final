@@ -11,16 +11,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
-public class Empresa extends PanacheEntity{
-    
+public class Empresa extends PanacheEntityBase{
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @JsonIgnore
+    private Long idEmpresa;
     private String cnpj;
     private String razaoSocial;
 

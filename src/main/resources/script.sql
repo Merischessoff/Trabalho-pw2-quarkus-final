@@ -1,4 +1,4 @@
-INSERT INTO Empresa(cnpj, razaoSocial) 
-VALUES('0000000000000', 'teste');
-INSERT INTO Usuario(cpf, login, nome, senha) 
-VALUES('00000000000','meri', '1234');
+insert into Empresa (cnpj, razaoSocial)  values ('0000000000', 'testeEmpresa');
+SET @last_id_in_table1 = LAST_INSERT_ID();
+insert into Usuario (cpf, login, nome, senha, idEmpresa)
+values ('0000000000', 'usu1', 'usuNome', 'usuSenha', @last_id_in_table1);

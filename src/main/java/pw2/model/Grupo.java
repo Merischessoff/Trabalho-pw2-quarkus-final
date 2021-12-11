@@ -5,14 +5,22 @@ import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
-public class Grupo extends PanacheEntity{
+public class Grupo extends PanacheEntityBase{
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @JsonIgnore
+    private Long idGrupo;
     private String grupo;
     private String descricao;
 
@@ -22,7 +30,6 @@ public class Grupo extends PanacheEntity{
     
     public Grupo() {
     }
-
 
     public Grupo(String grupo, String descricao) {
         this.grupo = grupo;

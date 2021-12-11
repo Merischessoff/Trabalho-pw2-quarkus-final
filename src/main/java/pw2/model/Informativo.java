@@ -5,15 +5,22 @@ import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
-public class Informativo extends PanacheEntity{
-    
+public class Informativo extends PanacheEntityBase{
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @JsonIgnore
+    private Long idInformativo;
     private String texto;
     private String imagem;
 

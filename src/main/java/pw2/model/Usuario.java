@@ -6,19 +6,28 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
-public class Usuario extends PanacheEntity{
-    
+public class Usuario extends PanacheEntityBase{
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @JsonIgnore
+    private Long idUsuario;
     private String cpf;
     private String nome;
     private String login;
     private String senha;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="idUsuario")
 	private List<Informativo> informativos;
