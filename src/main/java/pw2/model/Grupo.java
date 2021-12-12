@@ -24,6 +24,7 @@ public class Grupo extends PanacheEntityBase{
     private String grupo;
     private String descricao;
 
+    @JsonIgnore
 	@ManyToMany(mappedBy="grupos", fetch = FetchType.EAGER)
     @JsonManagedReference
 	private List<Destinatario> destinatarios;

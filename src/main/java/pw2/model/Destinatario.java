@@ -12,7 +12,6 @@ import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
@@ -29,10 +28,6 @@ public class Destinatario extends PanacheEntityBase{
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonBackReference
 	private List<Grupo> grupos;
-
-	@ManyToMany(cascade = CascadeType.ALL)
-    @JsonManagedReference
-	private List<Informativo> informativos;
 
     public Destinatario() {
     }
@@ -65,14 +60,6 @@ public class Destinatario extends PanacheEntityBase{
 
     public void setGrupos(List<Grupo> grupos) {
         this.grupos = grupos;
-    }
-
-    public List<Informativo> getInformativos() {
-        return this.informativos;
-    }
-
-    public void setInformativos(List<Informativo> informativos) {
-        this.informativos = informativos;
     }
 
     @Override
