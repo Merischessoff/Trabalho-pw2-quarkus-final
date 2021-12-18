@@ -17,9 +17,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
-public class Usuario extends PanacheEntityBase{
+public class Usuario extends PanacheEntityBase {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Long idUsuario;
     private String cpf;
@@ -29,14 +29,14 @@ public class Usuario extends PanacheEntityBase{
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="idUsuario")
-	private List<Informativo> informativos;
+    @JoinColumn(name = "idUsuario")
+    private List<Informativo> informativos;
 
     public Usuario() {
     }
 
-
-    public Usuario(Long idUsuario, String cpf, String nome, String login, String senha, List<Informativo> informativos) {
+    public Usuario(Long idUsuario, String cpf, String nome, String login, String senha,
+            List<Informativo> informativos) {
         this.idUsuario = idUsuario;
         this.cpf = cpf;
         this.nome = nome;
@@ -44,7 +44,6 @@ public class Usuario extends PanacheEntityBase{
         this.senha = senha;
         this.informativos = informativos;
     }
-
 
     public Long getIdUsuario() {
         return this.idUsuario;
@@ -102,7 +101,9 @@ public class Usuario extends PanacheEntityBase{
             return false;
         }
         Usuario usuario = (Usuario) o;
-        return Objects.equals(idUsuario, usuario.idUsuario) && Objects.equals(cpf, usuario.cpf) && Objects.equals(nome, usuario.nome) && Objects.equals(login, usuario.login) && Objects.equals(senha, usuario.senha) && Objects.equals(informativos, usuario.informativos);
+        return Objects.equals(idUsuario, usuario.idUsuario) && Objects.equals(cpf, usuario.cpf)
+                && Objects.equals(nome, usuario.nome) && Objects.equals(login, usuario.login)
+                && Objects.equals(senha, usuario.senha) && Objects.equals(informativos, usuario.informativos);
     }
 
     @Override
@@ -113,13 +114,13 @@ public class Usuario extends PanacheEntityBase{
     @Override
     public String toString() {
         return "{" +
-            " idUsuario='" + getIdUsuario() + "'" +
-            ", cpf='" + getCpf() + "'" +
-            ", nome='" + getNome() + "'" +
-            ", login='" + getLogin() + "'" +
-            ", senha='" + getSenha() + "'" +
-            ", informativos='" + getInformativos() + "'" +
-            "}";
+                " idUsuario='" + getIdUsuario() + "'" +
+                ", cpf='" + getCpf() + "'" +
+                ", nome='" + getNome() + "'" +
+                ", login='" + getLogin() + "'" +
+                ", senha='" + getSenha() + "'" +
+                ", informativos='" + getInformativos() + "'" +
+                "}";
     }
 
 }

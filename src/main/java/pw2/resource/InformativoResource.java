@@ -1,4 +1,5 @@
 package pw2.resource;
+
 import pw2.model.Informativo;
 import pw2.model.Usuario;
 
@@ -7,7 +8,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
-
 
 @Path("/informativos")
 @Produces(MediaType.APPLICATION_JSON)
@@ -37,7 +37,8 @@ public class InformativoResource {
         Informativo informativoEntity = Informativo.findById(idInformativo);
         informativoEntity = informativo;
         if (informativoEntity == null) {
-            throw new WebApplicationException("Informativo com o " + idInformativo + " não existe.", Response.Status.NOT_FOUND);
+            throw new WebApplicationException("Informativo com o " + idInformativo + " não existe.",
+                    Response.Status.NOT_FOUND);
         }
         informativoEntity.persist();
         return Response.ok(informativoEntity).build();
@@ -49,10 +50,11 @@ public class InformativoResource {
     public Response delete(@PathParam("idInformativo") Long idInformativo) {
         Informativo informativoEntity = Informativo.findById(idInformativo);
         if (informativoEntity == null) {
-            throw new WebApplicationException("Informativo com o id " + idInformativo + " não existe.", Response.Status.NOT_FOUND);
+            throw new WebApplicationException("Informativo com o id " + idInformativo + " não existe.",
+                    Response.Status.NOT_FOUND);
         }
         informativoEntity.delete();
         return Response.status(Response.Status.NO_CONTENT).build();
     }
-    
+
 }

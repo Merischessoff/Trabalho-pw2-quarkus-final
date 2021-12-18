@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,27 +18,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
-public class Informativo extends PanacheEntityBase{
+public class Informativo extends PanacheEntityBase {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Long idInformativo;
     private String texto;
     private String imagem;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="idInformativo")
-	private List<Destinatario> destinatarios;
-    
+    @JoinColumn(name = "idInformativo")
+    private List<Destinatario> destinatarios;
+
     public Informativo() {
-    }
-
-
-    public Informativo(Long idInformativo, String texto, String imagem, List<Destinatario> destinatarios) {
-        this.idInformativo = idInformativo;
-        this.texto = texto;
-        this.imagem = imagem;
-        this.destinatarios = destinatarios;
     }
 
     public Long getIdInformativo() {
@@ -80,23 +73,24 @@ public class Informativo extends PanacheEntityBase{
             return false;
         }
         Informativo informativo = (Informativo) o;
-        return Objects.equals(idInformativo, informativo.idInformativo) && Objects.equals(texto, informativo.texto) && Objects.equals(imagem, informativo.imagem) && Objects.equals(destinatarios, informativo.destinatarios);
+        return Objects.equals(idInformativo, informativo.idInformativo) && Objects.equals(texto, informativo.texto)
+                && Objects.equals(imagem, informativo.imagem)
+                && Objects.equals(destinatarios, informativo.destinatarios);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(idInformativo, texto, imagem, destinatarios);
     }
-    
 
     @Override
     public String toString() {
         return "{" +
-            " idInformativo='" + getIdInformativo() + "'" +
-            ", texto='" + getTexto() + "'" +
-            ", imagem='" + getImagem() + "'" +
-            ", destinatarios='" + getDestinatarios() + "'" +
-            "}";
+                " idInformativo='" + getIdInformativo() + "'" +
+                ", texto='" + getTexto() + "'" +
+                ", imagem='" + getImagem() + "'" +
+                ", destinatarios='" + getDestinatarios() + "'" +
+                "}";
     }
-    
+
 }

@@ -2,62 +2,62 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>Hibernate ORM with Panache quickstart - Quarkus</title>
+    <title>Informativo REST service</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/wingcss/0.1.8/wing.min.css"/>
-    <style>
-        input[type=number] {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            -webkit-transition: .5s;
-            transition: .5s;
-            outline: 0;
-            font-family: 'Open Sans', serif;
-        }
-    </style>
     <!-- Load AngularJS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script type="text/javascript">
-      var app = angular.module("FruitManagement", []);
+      var app = angular.module("InformativoManagement", []);
 
       //Controller Part
-      app.controller("FruitManagementController", function ($scope, $http) {
+      app.controller("InformativoManagementController", function ($scope, $http) {
 
         //Initialize page with default data which is blank in this example
-        $scope.fruits = [];
+        $scope.informativos = [];
 
         $scope.form = {
-          id: -1,
-          name: ""
+            "destinatarios": [
+              {
+                "cpf": "",
+                "grupos": [
+                  {
+                    "descricao": "",
+                    "grupo": ""
+                  }
+                ],
+                "nome": ""
+              }
+            ],
+            "imagem": "",
+            "texto": ""
         };
+
 
         //Now load the data from server
         _refreshPageData();
 
-        //HTTP POST/PUT methods for add/edit fruits
-        $scope.update = function () {
-          var method = "";
-          var url = "";
-          var data = {};
-          if ($scope.form.id == -1) {
-            //Id is absent so add fruits - POST operation
-            method = "POST";
-            url = '/entity/fruits';
-            data.name = $scope.form.name;
-          } else {
-            //If Id is present, it's edit operation - PUT operation
-            method = "PUT";
-            url = '/entity/fruits/' + $scope.form.id;
-            data.name = $scope.form.name;
-          }
+        //HTTP POST methods for add informativos
+        $scope.add = function () {
+          var data = { "destinatarios": [
+                        {
+                          "cpf": $scope.form.cpf,
+                          "grupos": [
+                            {
+                              "descricao": $scope.form.descricao,
+                              "grupo": $scope.form.grupo
+                            }
+                          ],
+                          "nome": $scope.form.nome
+                        }
+                      ],
+                      "imagem": $scope.form.imagem,
+                      "texto": $scope.form.texto
+
+                     };
 
           $http({
-            method: method,
-            url: url,
+            method: "POST",
+            url: '/informativos/{'+$scope.form.idUsuario+'}',
             data: angular.toJson(data),
             headers: {
               'Content-Type': 'application/json'
@@ -65,28 +65,14 @@
           }).then(_success, _error);
         };
 
-        //HTTP DELETE- delete fruit by id
-        $scope.remove = function (fruit) {
-          $http({
-            method: 'DELETE',
-            url: '/entity/fruits/' + fruit.id
-          }).then(_success, _error);
-        };
-
-        //In case of edit fruits, populate form with fruit data
-        $scope.edit = function (fruit) {
-          $scope.form.name = fruit.name;
-          $scope.form.id = fruit.id;
-        };
-
-          /* Private Methods */
-        //HTTP GET- get all fruits collection
+        /* Private Methods */
+        //HTTP GET- get all informativos collection
         function _refreshPageData() {
           $http({
             method: 'GET',
-            url: '/entity/fruits'
+            url: '/informativos'
           }).then(function successCallback(response) {
-            $scope.fruits = response.data;
+            $scope.informativos = response.data;
           }, function errorCallback(response) {
             console.log(response.statusText);
           });
@@ -94,7 +80,7 @@
 
         function _success(response) {
           _refreshPageData();
-          _clearForm()
+          _clearForm();
         }
 
         function _error(response) {
@@ -103,48 +89,65 @@
 
         //Clear the form
         function _clearForm() {
+          $scope.form.idUsuario = 0;
           $scope.form.name = "";
-          $scope.form.id = -1;
+          $scope.form.cpf = "";
+          $scope.form.descricao = "";
+          $scope.form.grupo = "";
+          $scope.form.nome = "";
+          $scope.form.imagem = "";
+          $scope.form.texto = "";
         }
       });
     </script>
 </head>
-<body ng-app="FruitManagement" ng-controller="FruitManagementController">
+<body ng-app="InformativoManagement" ng-controller="InformativoManagementController">
 
 <div class="container">
-    <h1>Hibernate ORM with Panache quickstart - Quarkus</h1>
-    <p>This application demonstrates how a Quarkus application implements a CRUD endpoint to manage fruits using Hibernate ORM with Panache.
-        This management interface invokes the CRUD service endpoint, which interacts with a database using JPA and several other well known libraries.
-    </p>
-    <p>Behind the scenes, we have:
-        <ul>
-            <li>Hibernate ORM with Panache taking care of all CRUD operations</li>
-            <li>RESTEasy powering the REST API</li>
-            <li>ArC, a CDI based dependency injection framework</li>
-            <li>the Narayana Transaction Manager coordinating all transactions</li>
-            <li>Agroal, the high performance Datasource implementation</li>
-            <li>Infinispan used as Hibernate 2nd level caching: enabled on both entities and queries</li>
-            <li>The Undertow webserver</li>
-            <li>Some magic bytecode generation plugged in the compiler...</li>
-        </ul>
-    </p>
+    <h1>REST Service - Informativo</h1>
 
-    <h3>Add/Edit a fruit</h3>
-    <form ng-submit="update()">
+    <h3>Add a informativo</h3>
+    <form ng-submit="add()">
         <div class="row">
-            <div class="col-6"><input type="text" placeholder="Name" ng-model="form.name" size="60"/></div>
+            <div class="col-2"><input type="text" placeholder="Id do Usuario" ng-model="form.idUsuario" size="60"/></div>
+        </div>
+        <div class="row">
+            <div class="col-6"><input type="text" placeholder="Cpf Destinatario" ng-model="form.cpf" size="60"/></div>
+        </div>
+        <div class="row">
+            <div class="col-6"><input type="text" placeholder="Descricão Grupo do Destinatario" ng-model="form.descricao" size="60"/></div>
+        </div>
+        <div class="row">
+            <div class="col-6"><input type="text" placeholder="Grupo Grupo do Destinatario" ng-model="form.grupo" size="60"/></div>
+        </div>
+        <div class="row">
+            <div class="col-6"><input type="text" placeholder="Nome do Destinatario" ng-model="form.nome" size="60"/></div>
+        </div>
+        <div class="row">
+            <div class="col-6"><input type="text" placeholder="Imagem do Informativo" ng-model="form.imagem" size="60"/></div>
+        </div>
+        <div class="row">
+            <div class="col-6"><input type="text" placeholder="Texto do Informativo" ng-model="form.texto" size="60"/></div>
         </div>
         <input type="submit" value="Save"/>
     </form>
 
-    <h3>Fruit List</h3>
+    <h3>Informativo Lista</h3>
     <div class="row">
-        <div class="col-2">Name</div>
+        <div class="col-8">Cpf Destinatario</div>
+        <div class="col-8">Descricão Grupo do Destinatario</div>
+        <div class="col-8">Grupo Grupo do Destinatario</div>
+        <div class="col-8">Nome do Destinatario</div>
+        <div class="col-8">Imagem do Informativo</div>
+        <div class="col-8">Texto do Informativo</div>
     </div>
-    <div class="row" ng-repeat="fruit in fruits">
-        <div class="col-2">{{ fruit.name }}</div>
-        <div class="col-8"><a ng-click="edit( fruit )" class="btn">Edit</a> <a ng-click="remove( fruit )" class="btn">Remove</a>
-        </div>
+    <div class="row" ng-repeat="informativo in informativos">
+        <div class="col-8">{{ informativo.cpf }}</div>
+        <div class="col-8">{{ informativo.descricao }}</div>
+        <div class="col-8">{{ informativo.grupo }}</div>
+        <div class="col-8">{{ informativo.nome }}</div>
+        <div class="col-8">{{ informativo.imagem }}</div>
+        <div class="col-8">{{ informativo.texto }}</div>
     </div>
 </div>
 
